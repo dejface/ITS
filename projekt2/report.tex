@@ -1,0 +1,115 @@
+\documentclass[titlepage]{article}
+
+\usepackage[slovak]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\usepackage{url}
+\usepackage{listings}
+\usepackage[normalem]{ulem}
+
+\lstset{
+    escapeinside={(*}{*)}
+}
+
+\begin{document}
+    
+    \title{ITS projekt 2 - REPORT}
+    \author{Dávid Oravec (xorave05)}
+    \maketitle
+
+    \section{Neimplementované testy}
+	Následujúce testy boli odovzdané v 1. úlohe, ale neboli implementované.
+	\subsection{cart.feature}
+	\begin{lstlisting}
+	Scenario: Product is added to non-empty cart
+        Given User is on exact page
+        And Cart has at least one item
+        When User adds item to cart
+        Then Cart contains one more item
+	\end{lstlisting}
+	 \begin{lstlisting}
+	Scenario: Show items in cart
+        Given User is on exact page
+        When User clicks on "Shopping cart"
+        Then Items in cart are displayed
+	\end{lstlisting}
+
+	\subsection{userthings.feature}
+	\begin{lstlisting}
+	Scenario: User logs out
+        Given User is on any page of eshop
+        And is logged in
+        When User logs out
+        Then user is logged out
+	\end{lstlisting}
+
+	\begin{lstlisting}
+	Scenario: Successful password change
+        Given User is on MyAccount page
+        And is logged in
+        When user navigates to Change password page
+        And fills new password
+        And passwords are same
+        And clicks "continue"
+        Then password is changed
+	\end{lstlisting}
+
+	\begin{lstlisting}
+	Scenario: Unsuccessful password change
+        Given User is on MyAccount page
+        And is logged in
+        When user navigates to Change password page
+        And fills new password
+        And passwords are not same
+        And clicks "continue"
+        Then password is not changed
+	\end{lstlisting}
+\newpage
+   \section{Oprava testov}
+	Niektoré testy z pôvodného návrhu boli modifikované z dôvodu lepšej implementácie a použiteľnosti. Nejednalo sa o chyby testov, išlo o zjednodušenie krokov a ich implementáciu. Pridané/zmenené prerekvizity sú vyznačené hrubým písmom alebo preškrtnuté pokiaľ boli úplne odstránené.
+	\subsection{cart.feature}
+	\begin{lstlisting}
+	Scenario: Product is added to empty cart
+        Given User is on exact (*\bfseries product*) page
+        And Cart is empty
+        When User adds item to cart
+        Then Cart contains one more item
+	\end{lstlisting}
+
+	\begin{lstlisting}
+	Scenario: Continue shopping from (*\bfseries empty*) cart
+        Given User is (*\bfseries on*) cart (*\bfseries page*)
+        (*\bfseries And Cart is empty*)
+        When User clicks "Continue"
+        Then Main page is loaded			
+	\end{lstlisting}
+	\subsection{mainpage.feature}
+	\begin{lstlisting}
+	Scenario: Newsletter subscription
+        Given user is on any eshop page
+        (*\bfseries And user is logged in*)
+        When user clicks on "Newsletter"
+	(*\sout{And user selects "Yes" option}*)
+        And user clicks "Continue"
+        Then user has newsletter subscription
+	\end{lstlisting}
+	\begin{lstlisting}
+	Scenario: Wish list
+        Given user is on any eshop page
+        And (*\bfseries user*) is logged in
+        When clicks on "Wish list"
+        Then user wish list is shown
+	\end{lstlisting}
+	\subsection{userthings.feature}
+	\begin{lstlisting}
+	Scenario: View order history
+        Given User is logged in 
+        And (*\bfseries user*) is on any (*\sout{page of eshop} \bfseries eshop page*)
+        When user clicks "MyAccount"
+        And clicks "Order history"
+        Then history of order is shown
+	\end{lstlisting}
+	
+
+
+\end{document}
